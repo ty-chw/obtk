@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.ResultsDao">
+    <!--    插入成绩-->
+    <insert id="insertResult">
+        insert into results(Student_id,tet,mcs,mcq,pwps) values (#{studentId},#{tet},#{mcs},#{mcq},#{pwps})
+    </insert>
+<!--    查询最后一个插入的数-->
+    <select id="selectResultId" resultType="java.lang.Integer">
+     select results_id from results order by results_id desc limit 1;
+    </select>
+<!--    修改成绩信息-->
+    <update id="updateResult">
+        update results set wps=wps+#{wps},tg=mcs+mcq+wps,pwps=pwps-1 where results_id=#{resultId}
+    </update>
+    <!--    查询学生所有成绩科目-->
+    <select id="selectStudentResultsTets" resultType="java.lang.String">
+        select distinct tet from results where Student_id=#{studentId}
+    </select>
+    <!--    查询学生科目所有成绩-->
+    <resultMap id="StudentTetResultsMapper" type="com.swjd.domain.Result">
+        <id column="results_id" property="resultId"/>
+        <result column="student_Id" property="studentId"/>
+        <result column="tet" property="tet"/>
+        <result column="mcs" property="mcs"/>
+        <result column="mcq" property="mcq"/>
+        <result column="wps" property="wps"/>
+        <result column="tg" property="tg"/>
+        <result column="pwps" property="pwps"/>
+        <result column="testTime" property="testTime"/>
+    </resultMap>
+    <select id="selectStudentTetResults" resultMap="StudentTetResultsMapper">
+        select * from results where Student_id=#{studentId} ORDER BY results_id DESC
+    </select>
+<!--    修改成绩方法-->
+    <update id="updateStudentResult">
+        update results set mcs=#{mcs},mcq=#{mcq},wps=#{wps},tg=mcs+mcq+wps where results_id=#{resultId}
+    </update>
+<!--    删除成绩-->
+    <delete id="deleteStudentResult">
+        delete from results where results_id=#{resultId}
+    </delete>
+</mapper>

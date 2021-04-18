@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.WpsDao">
+    <!--    查询所有应用题题目-->
+    <resultMap id="wpsMapper" type="com.swjd.domain.Wps">
+        <id column="wps_id" property="wpsId"/>
+        <result column="tet" property="tet"/>
+        <result column="wps_name" property="wpsName"/>
+        <result column="answer" property="answer"/>
+    </resultMap>
+    <select id="selectWps" resultMap="wpsMapper">
+         select * from wps;
+    </select>
+    <!--    添加应用题-->
+    <insert id="addWps">
+        insert into wps(tet,wps_name,answer) values (#{tet},#{wpsName},#{answer})
+    </insert>
+<!--    修改应用题-->
+    <update id="updateWps">
+        update wps set tet=#{tet},wps_name=#{wpsName},answer=#{answer} where wps_id=#{wpsId}
+    </update>
+    <!--    查询科目应用题总题数-->
+    <select id="selectWpsCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM wps WHERE tet=#{tet};
+    </select>
+    <!--    获取考试应用题总题数-->
+    <select id="selectExamWps" resultMap="wpsMapper">
+        select * from wps where tet=#{tet} order by rand() limit 2;;
+    </select>
+<!--    删除应用题题目-->
+    <delete id="deleteWps">
+        delete from wps where wps_id=#{wpsId}
+    </delete>
+</mapper>

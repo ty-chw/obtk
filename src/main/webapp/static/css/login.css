@@ -1,0 +1,70 @@
+body{
+    margin:0;
+    /*background:url("/static/img/index.jpg");*/
+    background-repeat:no-repeat ;
+    background-size:1536px 722px;
+    /*background-size:100% 100%;*/
+    background-attachment: fixed;
+    width: 1536px;
+    height: 722px;
+}
+#div{
+	border-radius:10px; 
+	width: 350px;
+	height: 400px; 
+	text-align: center;
+	float: right;
+	margin-top: 120px;
+	margin-right: 120px;
+	background-color:rgba(255,255,255,0.8)
+}
+#div1{
+	border-top-left-radius:10px;
+	width: 175px;
+	height: 80px;
+	float: left;
+	text-align: center;
+	line-height: 80px;
+}
+#div2{
+	 border-top-right-radius:10px;
+	 width:175px;
+	 height: 80px;
+	 float: left;
+	 background-color:rgba(255,255,255,0.8);
+	 text-align: center;
+	 line-height: 80px;
+}
+#div3{
+	clear: both;
+	width: 350px;
+	 height: 320px;
+	 line-height: 33px;
+	 padding-top: 40px;
+}
+#usernameID,#passwordID {
+	width: 200px;
+	height: 30px;
+}
+ #btn1,#btn2{
+ 	border-radius: 5px;
+ 	font-size: 15px;
+ 	width: 100px;
+ 	height: 35px;
+ 	line-height: 35px;
+ }
+.Eye{
+	position:relative;
+}
+#passwordsEye,#passwordEye{
+	position: absolute;
+	right: 10px;
+	bottom:10px
+}
+#div4{
+	text-align:center;
+	padding: 20px;
+}
+span{
+    color: red;
+}

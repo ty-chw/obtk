@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.McqDao">
+    <!--    查询所有选择题题目类型-->
+    <select id="selectMcqTet" resultType="java.lang.String">
+         select distinct tet from mcq;
+    </select>
+    <!--    查询所有选择题题目-->
+    <resultMap id="mcqMapper" type="com.swjd.domain.Mcq">
+        <id column="mcq_id" property="mcqId"/>
+        <result column="tet" property="tet"/>
+        <result column="mcq_name" property="mcqName"/>
+        <result column="options1" property="options1"/>
+        <result column="options2" property="options2"/>
+        <result column="options3" property="options3"/>
+        <result column="options4" property="options4"/>
+        <result column="answer" property="answer"/>
+    </resultMap>
+    <select id="selectMcq" resultMap="mcqMapper">
+         select * from mcq;
+    </select>
+    <!--    添加选择题-->
+    <insert id="addMcq">
+        insert into mcq(tet,mcq_name,Options1,Options2,Options3,Options4,Answer) values (#{tet},#{mcqName},#{options1},#{options2},#{options3},#{options4},#{answer})
+    </insert>
+<!--    修改多选题-->
+    <update id="updateMcq">
+        update mcq set tet=#{tet},mcq_name=#{mcqName},Options1=#{options1},
+        Options2=#{options2},Options3=#{options3},Options4=#{options4},Answer=#{answer}
+        where mcq_id=#{mcqId}
+    </update>
+    <!--    查询科目多选题总题数-->
+    <select id="selectMcqCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM mcq WHERE tet=#{tet};
+    </select>
+    <!--    获取考试多选题题目-->
+    <select id="selectExamMcq" resultMap="mcqMapper">
+         select * from mcq where tet=#{tet} order by rand() limit 5;;
+    </select>
+<!--    删除多选题-->
+    <delete id="deleteMcq">
+        delete from mcq where mcq_id=#{mcqId}
+    </delete>
+</mapper>

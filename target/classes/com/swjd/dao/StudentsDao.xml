@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.StudentsDao">
+<!--    添加学生用户-->
+   <insert id="insertStudent" >
+       insert into students(student_class,student_name,username,password) values(#{studentClass},#{studentName},#{username},#{password})
+   </insert>
+<!--    查询学生详细信息-->
+    <resultMap id="resultsMapper" type="com.swjd.domain.Result">
+        <id column="results_id" property="resultId"/>
+        <result column="student_Id" property="studentId"/>
+        <result column="tet" property="tet"/>
+        <result column="mcs" property="mcs"/>
+        <result column="mcq" property="mcq"/>
+        <result column="wps" property="wps"/>
+        <result column="tg" property="tg"/>
+        <result column="pwps" property="pwps"/>
+        <result column="testTime" property="testTime"/>
+    </resultMap>
+    <select id="selectResults" resultMap="resultsMapper">
+        select * from results where Student_id=#{studentId}
+    </select>
+    <resultMap id="studentResultsMapper" type="com.swjd.domain.Student">
+        <id column="student_Id" property="studentId"/>
+        <result column="student_Name" property="studentName"/>
+        <result column="student_class" property="studentClass"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="results" ofType="com.swjd.domain.Result"
+        select="selectResults" column="student_Id"/>
+    </resultMap>
+    <select id="selectStudents" resultMap="studentResultsMapper">
+       select * from students
+    </select>
+<!--    更新学生账号信息-->
+    <update id="updateStudent">
+        update students set student_class=#{studentClass},student_name=#{studentName},password=#{password} where username=#{username}
+    </update>
+    <!--    查询所有班级-->
+    <select id="selectStudentsClass" resultType="java.lang.String">
+         select distinct student_class from students ORDER BY student_class;
+    </select>
+<!--   删除学生账号-->
+    <delete id="deleteStudent">
+        delete from students where student_Id=#{studentId}
+    </delete>
+</mapper>

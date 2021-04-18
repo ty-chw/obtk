@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.PwpsDao">
+    <!--    插入成绩-->
+    <insert id="insertPwps">
+        insert into pwps(results_id,wps_Id,Answers,Tf) values (#{resultsId},#{wpsId},#{answers},#{tf})
+    </insert>
+<!--    查询所有考试应用题-->
+    <resultMap id="wpsMapper" type="com.swjd.domain.Wps">
+        <id column="wps_id" property="wpsId"/>
+        <result column="tet" property="tet"/>
+        <result column="wps_name" property="wpsName"/>
+        <result column="answer" property="answer"/>
+    </resultMap>
+    <select id="selectWpss" resultMap="wpsMapper">
+        select * from wps where wps_Id=#{wps_Id}
+    </select>
+    <resultMap id="PwpsMapper" type="com.swjd.domain.Pwps">
+        <id column="pwps_Id" property="pwpsId"/>
+        <result column="results_Id" property="resultsId"/>
+        <result column="wps_Id" property="wpsId"/>
+        <result column="answers" property="answers"/>
+        <result column="tf" property="tf"/>
+        <collection property="wps" ofType="com.swjd.domain.Wps"
+                    select="selectWpss" column="wps_Id"/>
+    </resultMap>
+    <select id="selectPwpss" resultMap="PwpsMapper">
+        select * from pwps
+    </select>
+<!--    修改阅卷状态-->
+    <update id="updatePwpsTf">
+        update pwps set tf='true' where pwps_Id=#{pwpsId}
+    </update>
+<!--    删除阅卷题目-->
+    <delete id="deletePwps">
+        delete from pwps where results_Id=#{resultsId}
+    </delete>
+</mapper>

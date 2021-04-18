@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swjd.dao.McsDao">
+    <!--    查询所有选择题题目类型-->
+    <select id="selectMcsTet" resultType="java.lang.String">
+         select distinct tet from mcs;
+    </select>
+    <!--    查询所有选择题题目-->
+    <resultMap id="mcsMapper" type="com.swjd.domain.Mcs">
+        <id column="mcs_id" property="mcsId"/>
+        <result column="tet" property="tet"/>
+        <result column="mcs_name" property="mcsName"/>
+        <result column="options1" property="options1"/>
+        <result column="options2" property="options2"/>
+        <result column="options3" property="options3"/>
+        <result column="options4" property="options4"/>
+        <result column="answer" property="answer"/>
+    </resultMap>
+    <select id="selectMcs" resultMap="mcsMapper">
+         select * from mcs;
+    </select>
+    <!--    获取考试单选题题目-->
+    <select id="selectExamMcs" resultMap="mcsMapper">
+         select * from mcs where tet=#{tet} order by rand() limit 20;;
+    </select>
+<!--    添加选择题-->
+    <insert id="addMcs">
+        insert into mcs(tet,mcs_name,Options1,Options2,Options3,Options4,Answer) values (#{tet},#{mcsName},#{options1},#{options2},#{options3},#{options4},#{answer})
+    </insert>
+<!--    修改单选题-->
+    <update id="updateMcs">
+        update mcs set tet=#{tet},mcs_name=#{mcsName},Options1=#{options1},
+        Options2=#{options2},Options3=#{options3},Options4=#{options4},Answer=#{answer}
+        where mcs_id=#{mcsId}
+    </update>
+    <!--    查询科目选择题总题数-->
+    <select id="selectMcsCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM mcs WHERE tet=#{tet};
+    </select>
+    <!--    删除单选题-->
+    <delete id="deleteMcs">
+        delete from mcs where mcs_id=#{mcsId}
+    </delete>
+</mapper>
